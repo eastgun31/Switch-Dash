@@ -8,15 +8,16 @@ public abstract class PlayerController : MonoBehaviour
     [SerializeField] protected int heart = 0;
     [SerializeField] protected float dashCount = 0f;
     [SerializeField] protected bool isGround = false;
+    [SerializeField] protected bool isDash = false;
     [SerializeField] protected GameObject drawpool;
 
     protected Rigidbody2D rb;
     protected Animator anim;
 
-    private string ground = "Ground";
-    private string run = "Run";
-    private string jump = "Jump";
-    private DrawPooling drawPooling;
+    protected string ground = "Ground";
+    protected string run = "Run";
+    protected string jump = "Jump";
+    protected DrawPooling drawPooling;
     GameManager gm;
 
     private void Start()
@@ -54,7 +55,7 @@ public abstract class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(ground))
+        if (collision.gameObject.CompareTag(ground) && !isDash)
         {
             isGround = true;
             anim.SetBool(run, true);
@@ -76,7 +77,7 @@ public abstract class PlayerController : MonoBehaviour
             
     }
 
-    protected abstract void Dash();
+    protected abstract IEnumerator Dash();
     protected abstract void Die();
 
 }

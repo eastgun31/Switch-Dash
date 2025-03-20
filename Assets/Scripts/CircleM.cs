@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class CircleM : PlayerController
 {
+    [SerializeField] private Vector3[] dashRoot = new Vector3[4];
 
-    protected override void Dash()
+    protected override IEnumerator Dash()
     {
-        Debug.Log("Circle Dash");
+        transform.position = dashRoot[0];
+        isDash = true;
+        anim.SetBool(run, false);
+
+        yield return null;
     }
 
 

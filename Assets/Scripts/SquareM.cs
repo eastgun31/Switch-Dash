@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class SquareM : PlayerController
 {
-    protected override void Dash()
+    protected override IEnumerator Dash()
     {
         Debug.Log("Square Dash");
+
+        yield return null;
     }
 
     protected override void Die()

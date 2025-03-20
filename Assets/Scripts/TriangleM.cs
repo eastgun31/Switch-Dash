@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class TriangleM : PlayerController
 {
-    protected override void Dash()
+    protected override IEnumerator Dash()
     {
         Debug.Log("Triangle Dash");
+
+        yield return null;
     }
 
 
