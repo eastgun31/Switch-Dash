@@ -528,10 +528,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpforce: 21
+  dashspeed: 10
   heart: 0
   dashCount: 0
   isGround: 0
+  isDash: 0
   drawpool: {fileID: 1379542388}
+  dashRoot:
+  - {x: -3, y: 0.003, z: 0}
+  - {x: -1, y: 6, z: 0}
+  - {x: 1, y: 0.003, z: 0}
+  - {x: 3, y: 6, z: 0}
 --- !u!95 &244281473
 Animator:
   serializedVersion: 7
@@ -1237,9 +1244,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpforce: 13
+  dashspeed: 0
   heart: 0
   dashCount: 0
   isGround: 0
+  isDash: 0
   drawpool: {fileID: 1379542388}
 --- !u!50 &1293444140
 Rigidbody2D:
@@ -2181,9 +2190,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpforce: 33
+  dashspeed: 0
   heart: 0
   dashCount: 0
   isGround: 0
+  isDash: 0
   drawpool: {fileID: 1379542388}
 --- !u!50 &1771742134
 Rigidbody2D:

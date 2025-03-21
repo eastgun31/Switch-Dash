@@ -8,11 +8,36 @@ public class CircleM : PlayerController
 
     protected override IEnumerator Dash()
     {
-        transform.position = dashRoot[0];
-        isDash = true;
-        anim.SetBool(run, false);
 
-        yield return null;
+        while (isDash)
+        {
+            Debug.Log("Circle Dash now");
+
+            if (transform.position.x < dashRoot[1].x)
+                transform.position = Vector3.MoveTowards(transform.position, dashRoot[1], dashspeed * Time.deltaTime);
+            else if (transform.position.x < dashRoot[2].x)
+                transform.position = Vector3.MoveTowards(transform.position, dashRoot[2], dashspeed * Time.deltaTime);
+            else if (transform.position.x < dashRoot[3].x)
+                transform.position = Vector3.MoveTowards(transform.position, dashRoot[3], dashspeed * Time.deltaTime);
+
+            if (transform.position == dashRoot[3])
+            {
+                isDash = false;
+                StartCoroutine(DashReset());
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator DashReset()
+    {
+        rb.gravityScale = 5;
+        while (transform.position.x > dashRoot[0].x)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], 3 * Time.deltaTime);
+            yield return null;
+        }
     }
 
 

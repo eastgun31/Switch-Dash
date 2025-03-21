@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class PlayerController : MonoBehaviour
 {
     [SerializeField] protected float jumpforce = 0f;
+    [SerializeField] protected float dashspeed = 0f;
     [SerializeField] protected int heart = 0;
     [SerializeField] protected float dashCount = 0f;
     [SerializeField] protected bool isGround = false;
@@ -36,7 +37,12 @@ public abstract class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            Dash();
+            isDash = true;
+            anim.SetBool(run, false);
+            transform.position = new Vector3(-3, 0.003f, 0);
+            rb.gravityScale = 0;
+
+            StartCoroutine(Dash());
         }
     }
 
