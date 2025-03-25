@@ -11,8 +11,6 @@ public class CircleM : PlayerController
 
         while (isDash)
         {
-            Debug.Log("Circle Dash now");
-
             if (transform.position.x < dashRoot[1].x)
                 transform.position = Vector3.MoveTowards(transform.position, dashRoot[1], dashspeed * Time.deltaTime);
             else if (transform.position.x < dashRoot[2].x)
@@ -23,6 +21,7 @@ public class CircleM : PlayerController
             if (transform.position == dashRoot[3])
             {
                 isDash = false;
+                dashCount = 4;
                 StartCoroutine(DashReset());
             }
 
@@ -33,9 +32,20 @@ public class CircleM : PlayerController
     private IEnumerator DashReset()
     {
         rb.gravityScale = 5;
+        dashReset = true;
+        anim.SetBool(run, true);
+
         while (transform.position.x > dashRoot[0].x)
         {
-            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], 3 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], 10 * Time.deltaTime);
+
+            if (transform.position == dashRoot[0])
+            {
+                dashReset = false;
+                isGround = true;
+                drawPooling.SetDraw();
+            }
+
             yield return null;
         }
     }

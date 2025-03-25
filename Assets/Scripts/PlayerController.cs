@@ -10,7 +10,9 @@ public abstract class PlayerController : MonoBehaviour
     [SerializeField] protected float dashCount = 0f;
     [SerializeField] protected bool isGround = false;
     [SerializeField] protected bool isDash = false;
+    [SerializeField] protected bool dashReset = false;
     [SerializeField] protected GameObject drawpool;
+    [SerializeField] protected Vector3 firstpos;
 
     protected Rigidbody2D rb;
     protected Animator anim;
@@ -18,6 +20,7 @@ public abstract class PlayerController : MonoBehaviour
     protected string ground = "Ground";
     protected string run = "Run";
     protected string jump = "Jump";
+    protected string dash = "Dash";
     protected DrawPooling drawPooling;
     GameManager gm;
 
@@ -34,12 +37,16 @@ public abstract class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.A) && isGround)
         {
             anim.SetTrigger(jump);
+
+            if(dashCount > 0)
+                dashCount--;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) && isGround && dashCount == 0)
         {
             isDash = true;
             anim.SetBool(run, false);
-            transform.position = new Vector3(-3, 0.003f, 0);
+            anim.SetTrigger(dash);
+            transform.position = firstpos;
             rb.gravityScale = 0;
 
             StartCoroutine(Dash());
@@ -54,18 +61,13 @@ public abstract class PlayerController : MonoBehaviour
         drawPooling.MoveDraw();
     }
 
-    private void Draw()
-    {
-        drawPooling.SetDraw();
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(ground) && !isDash)
+        if (collision.gameObject.CompareTag(ground) && !isDash && !dashReset)
         {
             isGround = true;
             anim.SetBool(run, true);
-            Draw();
+            drawPooling.SetDraw();
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
