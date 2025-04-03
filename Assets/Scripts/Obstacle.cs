@@ -12,6 +12,7 @@ public class Obstacle : MonoBehaviour
     [SerializeField] private int arrayCount = 0;
 
     [SerializeField] private ObstacleManager obsM;
+    [SerializeField] private GameObject platform;
 
     GameManager gm;
 
@@ -30,6 +31,10 @@ public class Obstacle : MonoBehaviour
             case 1:
                 Obs_0();
                 break;
+            case 2:
+                objSpeed = 10f;
+                Obs_1();
+                break;
         }
     }
 
@@ -37,7 +42,10 @@ public class Obstacle : MonoBehaviour
     {
         obsIndex = Random.Range(0, arrayCount);
 
-        if(obsModel[obsIndex] == null)
+        if (gm.holeTrapActive)
+            ObsModelOn();
+
+        if (obsModel[obsIndex] == null)
         {
             GameObject _obs = Instantiate(obs.obsModels[obsIndex], transform.position, Quaternion.identity, transform);
             obsModel[obsIndex] = _obs;
@@ -45,6 +53,9 @@ public class Obstacle : MonoBehaviour
         else
         {
             obsModel[obsIndex].SetActive(true);
+
+            for (int i = 0; i < obsModel[obsIndex].transform.childCount; i++)
+                obsModel[obsIndex].transform.GetChild(i).gameObject.SetActive(true);
         }
 
     }
@@ -62,8 +73,19 @@ public class Obstacle : MonoBehaviour
         }    
     }
 
-    public void DestroyObs()
+    private void Obs_1()
     {
+        transform.position = Vector2.MoveTowards
+                (transform.position, targetPos, gm.worldSpeed * objSpeed * Time.deltaTime);
 
+        if (transform.position.x <= targetPos.x)
+        {
+            obsModel[obsIndex].SetActive(false);
+            objSpeed = 3f;
+            transform.position = transform.parent.position;
+            gameObject.SetActive(false);
+        }
     }
+
+
 }

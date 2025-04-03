@@ -1,13 +1,5 @@
 fileFormatVersion: 2
-guid: d2e5333787caeaf4ebffc05559c3d256
-AssetOrigin:
-  serializedVersion: 1
-  productId: 85838
-  packageName: Free Platform Game Assets
-  packageVersion: 1.9.4
-  assetPath: Assets/BayatGames/Free Platform Game Assets/Tiles/2D Tiles ( Update
-    1.9 )/Autumn/256x256/Grass.png
-  uploadId: 484258
+guid: bf24e11250aba9b4982c5a705c117ac9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,9 +37,9 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -56,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,7 +113,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 10d63f00b79aa004cb9d13bac1d2146d
+    spriteID: de8412894ea5b97409bcbba866b32be4
     internalID: 0
     vertices: []
     indices: 

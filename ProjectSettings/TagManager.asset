@@ -9,6 +9,7 @@ TagManager:
   - Roof
   - SDashItem
   - HItem
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - BG1
+  - BG2
   - 
   - 
   - 

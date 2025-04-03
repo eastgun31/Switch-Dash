@@ -41,6 +41,7 @@ public class TriangleM : PlayerController
             {
                 dashReset = false;
                 isGround = true;
+                gm.nowDash = false;
                 anim.SetBool(run, true);
                 drawPooling.SetDraw();
             }

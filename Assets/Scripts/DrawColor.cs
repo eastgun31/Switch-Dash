@@ -7,9 +7,9 @@ public class DrawColor : MonoBehaviour
 {
     public bool noDraw = false;
     public SpriteRenderer _color;
-    private Vector2 firstScale = new Vector2(1, 2);
-    private Vector2 targetScale = new Vector2(6, 2);
-    private Vector3 targetPos = new Vector3(-10, -1.75f, 0);
+    private Vector2 firstScale = new Vector2(1, 1);
+    private Vector2 targetScale = new Vector2(6, 1);
+    private Vector3 targetPos = new Vector3(-10, -1.45f, 0);
     private float scaleSpeed = 3f;
 
     GameManager gm;

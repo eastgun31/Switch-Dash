@@ -14,15 +14,17 @@ public class ObstacleManager : MonoBehaviour
     [SerializeField] private float spawnCool = 0f;
     [SerializeField] private int itemCoolCount = 0;
     [SerializeField] private Vector3[] itemSpawnPos = new Vector3[3];
+    [SerializeField] private int obsTypes;
 
     GameManager gm;
 
     void Start()
     {
         gm = GameManager.instance;
-        spawnCool = 10f;
+        spawnCool = 7f;
+        obsTypes = 2;
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             GameObject obj = Instantiate(obstaclePrefab, transform);
             obstacles.Add(obj);
@@ -41,7 +43,7 @@ public class ObstacleManager : MonoBehaviour
 
     public void SetObstacle()
     {
-        for (int i = 0; i < obstacles.Count; i++)
+        for (int i = 0; i < obsTypes; i++)
         {
             if (!obstacles[i].activeSelf)
             {
@@ -64,7 +66,7 @@ public class ObstacleManager : MonoBehaviour
             spawnTime = 0f;
             itemCoolCount++;
 
-            if(itemCoolCount >= 3)
+            if(itemCoolCount >= 4)
             {
                 itemCoolCount = 0;
                 int rand = Random.Range(0, 2);
@@ -99,5 +101,13 @@ public class ObstacleManager : MonoBehaviour
         }
     }
 
+    public void LevelUp()
+    {
+        if(spawnCool > 1f)
+            spawnCool --;
+
+        if (obsTypes < 3)
+            obsTypes++;
+    }
 
 }

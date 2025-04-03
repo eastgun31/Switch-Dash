@@ -10,7 +10,7 @@ public class DrawPooling : MonoBehaviour
     [SerializeField] private List<GameObject> drawPrefabs = new List<GameObject>();
     [SerializeField] private List<DrawColor> drawcolor = new List<DrawColor>();
 
-    private Vector3 startpos = new Vector3(-3, -1.75f, 0);
+    private Vector3 startpos = new Vector3(-3, -1.45f, 0);
     GameManager gm;
 
     void Start()

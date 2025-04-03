@@ -42,6 +42,7 @@ public class CircleM : PlayerController
             {
                 dashReset = false;
                 isGround = true;
+                gm.nowDash = false;
                 drawPooling.SetDraw();
             }
 

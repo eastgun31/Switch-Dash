@@ -15,6 +15,9 @@ public class SwitchModel : MonoBehaviour
     }
     public void SwitchCircle()
     {
+        if (gm.nowDash)
+            return;
+
         Debug.Log("Switch Model to Circle");
 
         buttons[offIndex].transform.position = buttons[0].transform.position;
@@ -24,6 +27,8 @@ public class SwitchModel : MonoBehaviour
     }
     public void SwitchTriangle()
     {
+        if (gm.nowDash)
+            return;
         Debug.Log("Switch Model to Triangle");
 
         buttons[offIndex].transform.position = buttons[1].transform.position;
@@ -33,6 +38,9 @@ public class SwitchModel : MonoBehaviour
     }
     public void SwitchSquare()
     {
+        if (gm.nowDash)
+            return;
+
         Debug.Log("Switch Model to Square");
         buttons[offIndex].transform.position = buttons[2].transform.position;
         buttons[offIndex].gameObject.SetActive(true);

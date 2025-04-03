@@ -26,8 +26,10 @@ public abstract class PlayerController : MonoBehaviour
     protected string dash = "Dash";
     protected string sdash = "SDash";
     protected string sdashItem = "SDashItem";
+    protected string hItem = "HItem";
+    protected string obs = "Obstacle";
     protected DrawPooling drawPooling;
-    GameManager gm;
+    protected GameManager gm;
 
     private void Start()
     {
@@ -48,6 +50,9 @@ public abstract class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A) && isGround)
         {
+            if(isDash || dashReset)
+                return;
+
             anim.SetTrigger(jump);
 
             if (dashCount > 0)
@@ -55,12 +60,15 @@ public abstract class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.S) && dashCount == 0)
         {
+            if(isDash || dashReset)
+                return;
+
             isDash = true;
+            gm.nowDash = true;
             anim.SetBool(run, false);
             anim.SetTrigger(dash);
             GhostEffectOn();
 
-            //transform.position = firstpos;
             rb.gravityScale = 0;
             rb.linearVelocity = Vector2.zero;
 
@@ -79,6 +87,9 @@ public abstract class PlayerController : MonoBehaviour
 
     private IEnumerator SuperDash()
     {
+        gm.worldSpeed += 3f;
+        gm.nowDash = true;
+
         while (isDash)
         {
             if (transform.position.x < dashRoot.Last().x)
@@ -88,6 +99,7 @@ public abstract class PlayerController : MonoBehaviour
             {
                 yield return sdashdelay;
 
+                gm.worldSpeed -= 3f;
                 isDash = false;
                 StartCoroutine(DashReset());
             }
@@ -105,23 +117,50 @@ public abstract class PlayerController : MonoBehaviour
         ghostEffect.Stop();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag(sdashItem))
+        {
+            if(dashReset)
+            {
+                dashReset = false;
+                StopAllCoroutines();
+            }
+
+            isDash = true;
+            anim.SetBool(run, false);
+            anim.SetTrigger(sdash);
+            rb.gravityScale = 0;
+            rb.linearVelocity = Vector2.zero;
+            GhostEffectOff();
+
+            Destroy(collision.gameObject);
+            StartCoroutine(SuperDash());
+        }
+        else if (collision.gameObject.CompareTag(hItem))
+        {
+            Destroy(collision.gameObject);
+
+            if (gm.hp < 3)
+                gm.hp++;
+        }
+        else if (collision.gameObject.CompareTag(obs))
+        {
+            if (!isDash && !dashReset)
+                gm.hp--;
+            else
+                collision.gameObject.SetActive(false);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(ground) && !isDash && !dashReset)
         {
             isGround = true;
             anim.SetBool(run, true);
-            ghostEffect.Stop();
+            GhostEffectOff();
             drawPooling.SetDraw();
-        }
-        else if(collision.gameObject.CompareTag(sdashItem))
-        {
-            isDash = true;
-            anim.SetBool(run, false);
-            anim.SetTrigger(sdash);
-            rb.gravityScale = 0;
-            rb.linearVelocity = Vector2.zero;
-            StartCoroutine(SuperDash());
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
