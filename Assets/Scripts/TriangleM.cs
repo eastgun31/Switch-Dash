@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TriangleM : PlayerController
 {
-    [SerializeField] private Vector3[] dashRoot = new Vector3[2];
     WaitForSeconds dashdelay = new WaitForSeconds(1f);
 
     protected override IEnumerator Dash()
@@ -16,6 +15,7 @@ public class TriangleM : PlayerController
 
             if (transform.position == dashRoot[1])
             {
+                GhostEffectOff();
                 yield return dashdelay;
 
                 isDash = false;
@@ -27,14 +27,15 @@ public class TriangleM : PlayerController
         }
     }
 
-    private IEnumerator DashReset()
+    protected override IEnumerator DashReset()
     {
+        GhostEffectOff();
         rb.gravityScale = 10;
         dashReset = true;
 
         while (transform.position.x > dashRoot[0].x)
         {
-            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], 10 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], dashspeed * Time.deltaTime);
 
             if (transform.position == dashRoot[0])
             {

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CircleM : PlayerController
 {
-    [SerializeField] private Vector3[] dashRoot = new Vector3[4];
-
     protected override IEnumerator Dash()
     {
 
@@ -29,15 +27,16 @@ public class CircleM : PlayerController
         }
     }
 
-    private IEnumerator DashReset()
+    protected override IEnumerator DashReset()
     {
+        GhostEffectOff();
         rb.gravityScale = 5;
         dashReset = true;
         anim.SetBool(run, true);
 
         while (transform.position.x > dashRoot[0].x)
         {
-            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], 10 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], dashspeed * Time.deltaTime);
 
             if (transform.position == dashRoot[0])
             {
@@ -49,6 +48,8 @@ public class CircleM : PlayerController
             yield return null;
         }
     }
+
+
 
 
     protected override void Die()

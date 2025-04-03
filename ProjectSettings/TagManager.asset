@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Target
   - Roof
+  - SDashItem
+  - HItem
   layers:
   - Default
   - TransparentFX

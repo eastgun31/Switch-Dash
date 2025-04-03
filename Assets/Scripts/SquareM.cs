@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class SquareM : PlayerController
 {
-    [SerializeField] private Vector3[] dashRoot = new Vector3[2];
     WaitForSeconds dashdelay1 = new WaitForSeconds(0.2f);
-    WaitForSeconds dashdelay2 = new WaitForSeconds(0.5f);
+    WaitForSeconds dashdelay2 = new WaitForSeconds(1f);
 
     protected override IEnumerator Dash()
     {
@@ -20,10 +19,11 @@ public class SquareM : PlayerController
 
             if (transform.position == dashRoot[1])
             {
+                GhostEffectOff();
                 yield return dashdelay2;
 
                 isDash = false;
-                dashCount = 1;
+                dashCount = 4;
                 StartCoroutine(DashReset());
             }
 
@@ -31,14 +31,16 @@ public class SquareM : PlayerController
         }
     }
 
-    private IEnumerator DashReset()
+
+    protected override IEnumerator DashReset()
     {
+        GhostEffectOff();
         rb.gravityScale = 2;
         dashReset = true;
 
         while (transform.position.x > dashRoot[0].x)
         {
-            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], 10 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, dashRoot[0], dashspeed * Time.deltaTime);
 
             if (transform.position == dashRoot[0])
             {
@@ -51,6 +53,7 @@ public class SquareM : PlayerController
             yield return null;
         }
     }
+
 
     protected override void Die()
     {

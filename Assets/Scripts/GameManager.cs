@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int modelIndex = 0;
-    public float worldSpeed = 3f;
+    public float worldSpeed = 1f;
     public SpriteRenderer[] shapes = new SpriteRenderer[3];
     public Color[] colors = new Color[3];
 

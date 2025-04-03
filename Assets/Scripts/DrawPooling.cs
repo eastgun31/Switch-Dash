@@ -1,10 +1,12 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawPooling : MonoBehaviour
 {
     [SerializeField] private GameObject drawPrefab;
+    [SerializeField] private GameObject ghostPool;
     [SerializeField] private List<GameObject> drawPrefabs = new List<GameObject>();
     [SerializeField] private List<DrawColor> drawcolor = new List<DrawColor>();
 
@@ -15,7 +17,7 @@ public class DrawPooling : MonoBehaviour
     {
         gm = GameManager.instance;
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             GameObject obj = Instantiate(drawPrefab, transform);
             drawPrefabs.Add(obj);
@@ -60,5 +62,4 @@ public class DrawPooling : MonoBehaviour
                 Debug.LogWarning("GameObject has been destroyed: " + i);
         }
     }
-
 }

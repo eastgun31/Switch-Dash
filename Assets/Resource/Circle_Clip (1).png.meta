@@ -125,12 +125,12 @@ TextureImporter:
       name: Circle_Clip (1)_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 566
-        width: 256
-        height: 256
+        x: 35
+        y: 567
+        width: 254
+        height: 254
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: Circle_Clip (1)_1
       rect:
         serializedVersion: 2
-        x: 316
-        y: 680
-        width: 256
-        height: 256
+        x: 317
+        y: 681
+        width: 254
+        height: 254
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -169,12 +169,12 @@ TextureImporter:
       name: Circle_Clip (1)_2
       rect:
         serializedVersion: 2
-        x: 18
-        y: 93
-        width: 308
-        height: 256
+        x: 19
+        y: 94
+        width: 306
+        height: 254
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -191,12 +191,12 @@ TextureImporter:
       name: Circle_Clip (1)_3
       rect:
         serializedVersion: 2
-        x: 364
-        y: 93
-        width: 186
-        height: 388
+        x: 365
+        y: 175
+        width: 184
+        height: 305
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

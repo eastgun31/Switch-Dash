@@ -11,10 +11,12 @@ public class DrawColor : MonoBehaviour
     private Vector2 targetScale = new Vector2(6, 2);
     private Vector3 targetPos = new Vector3(-10, -1.75f, 0);
     private float scaleSpeed = 3f;
-    private string target = "Target";
+
+    GameManager gm;
 
     private void OnEnable()
     {
+        gm = GameManager.instance;
         StartCoroutine(SizeUp());
     }
 
@@ -29,7 +31,7 @@ public class DrawColor : MonoBehaviour
         {
             StopAllCoroutines();
             transform.position = Vector2.MoveTowards
-                (transform.position, targetPos, GameManager.instance.worldSpeed * Time.deltaTime);
+                (transform.position, targetPos, gm.worldSpeed * scaleSpeed * Time.deltaTime);
 
             if(transform.position == targetPos)
             {
@@ -44,7 +46,7 @@ public class DrawColor : MonoBehaviour
     {
         while (transform.localScale.x < targetScale.x)
         {
-            transform.localScale += new Vector3(scaleSpeed * Time.deltaTime, 0, 0);
+            transform.localScale += new Vector3(scaleSpeed * gm.worldSpeed * Time.deltaTime, 0, 0);
             yield return null;
         }
     }
