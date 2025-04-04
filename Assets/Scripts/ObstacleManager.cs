@@ -22,7 +22,7 @@ public class ObstacleManager : MonoBehaviour
     {
         gm = GameManager.instance;
         spawnCool = 7f;
-        obsTypes = 2;
+        obsTypes = 1;
 
         for (int i = 0; i < 10; i++)
         {
@@ -37,18 +37,21 @@ public class ObstacleManager : MonoBehaviour
 
     private void Update()
     {
+        if(gm.nowLevelUp)
+            return;
+
         spawnTime += Time.deltaTime;
         SpawnObj();
     }
 
     public void SetObstacle()
     {
-        for (int i = 0; i < obsTypes; i++)
+        for (int i = 0; i < obstacles.Count; i++)
         {
             if (!obstacles[i].activeSelf)
             {
                 obstacles[i].SetActive(true);
-                _obstacles[i].ObsModelOn();
+                _obstacles[i].ObsModelOn(obsTypes);
                 return;
             }
         }
@@ -56,7 +59,7 @@ public class ObstacleManager : MonoBehaviour
         newObj.SetActive(true);
         obstacles.Add(newObj);
         _obstacles.Add(newObj.GetComponent<Obstacle>());
-        _obstacles[_obstacles.Count - 1].ObsModelOn();
+        _obstacles[_obstacles.Count - 1].ObsModelOn(obsTypes);
     }
 
     private void SpawnObj()

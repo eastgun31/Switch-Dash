@@ -2,24 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class PlayerController : MonoBehaviour
 {
+    [SerializeField] protected int modelIndex = 0;
     [SerializeField] protected float jumpforce = 0f;
     [SerializeField] protected float dashspeed = 0f;
     [SerializeField] protected int heart = 0;
     [SerializeField] protected float dashCount = 0f;
+    [SerializeField] protected float maxdashCount;
     [SerializeField] protected bool isGround = false;
     [SerializeField] protected bool isDash = false;
+    [SerializeField] protected bool isSDash = false;
     [SerializeField] protected bool dashReset = false;
+    [SerializeField] protected bool isInvincible = false;
     [SerializeField] protected GameObject drawpool;
     [SerializeField] protected Vector3 firstpos;
     [SerializeField] protected List<Vector3> dashRoot = new List<Vector3>();
     [SerializeField] protected ParticleSystem ghostEffect;
+    [SerializeField] protected SpriteRenderer _sprite;
+    [SerializeField] protected GameObject[] heartImage = new GameObject[3];
+    [SerializeField] protected Slider dashBar;
+    [SerializeField] protected Slider mdashBar;
 
     protected Rigidbody2D rb;
     protected Animator anim;
     protected WaitForSeconds sdashdelay = new WaitForSeconds(3f);
+    protected WaitForSeconds indivildelay = new WaitForSeconds(0.1f);
     protected string ground = "Ground";
     protected string run = "Run";
     protected string jump = "Jump";
@@ -30,6 +40,17 @@ public abstract class PlayerController : MonoBehaviour
     protected string obs = "Obstacle";
     protected DrawPooling drawPooling;
     protected GameManager gm;
+   
+    private Color alpha0 = new Color(0, 0, 0, -1);
+    private Color alpha100 = new Color(0, 0, 0, 1);
+
+    private void Awake()
+    {
+        if (modelIndex == 2)
+            _sprite = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        else
+            _sprite = GetComponent<SpriteRenderer>();
+    }
 
     private void Start()
     {
@@ -43,11 +64,11 @@ public abstract class PlayerController : MonoBehaviour
         ParticleSystem.MainModule main = ghostEffect.main;
         main.startColor = new ParticleSystem.MinMaxGradient(colorWithAlpha);
 
+        dashCount = maxdashCount;
     }
 
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.A) && isGround)
         {
             if(isDash || dashReset)
@@ -55,10 +76,10 @@ public abstract class PlayerController : MonoBehaviour
 
             anim.SetTrigger(jump);
 
-            if (dashCount > 0)
-                dashCount--;
+            if (dashCount < maxdashCount)
+                dashCount++;
         }
-        else if (Input.GetKeyDown(KeyCode.S) && dashCount == 0)
+        else if (Input.GetKeyDown(KeyCode.S) && dashCount == maxdashCount)
         {
             if(isDash || dashReset)
                 return;
@@ -74,6 +95,8 @@ public abstract class PlayerController : MonoBehaviour
 
             StartCoroutine(Dash());
         }
+
+        DashBarUpdate();
     }
 
     public void Jump()
@@ -89,6 +112,7 @@ public abstract class PlayerController : MonoBehaviour
     {
         gm.worldSpeed += 3f;
         gm.nowDash = true;
+        isSDash = true;
 
         while (isDash)
         {
@@ -100,6 +124,7 @@ public abstract class PlayerController : MonoBehaviour
                 yield return sdashdelay;
 
                 gm.worldSpeed -= 3f;
+                isSDash = false;
                 isDash = false;
                 StartCoroutine(DashReset());
             }
@@ -116,15 +141,84 @@ public abstract class PlayerController : MonoBehaviour
     {
         ghostEffect.Stop();
     }
+    public void StateReset()
+    {
+        StopAllCoroutines();
+        isDash = false;
+        isSDash = false;
+        dashReset = false;
+        isInvincible = false;
+        _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1f); 
+        //_sprite.enabled = true;
+    }
+
+    public void SwitchInvincible()
+    {
+        StartCoroutine(Hit(2));
+    }
+
+    public IEnumerator Hit(int blinkCount)
+    {
+        if (isInvincible)
+        {
+            yield break;
+        }
+
+        Debug.Log("Hit");
+        isInvincible = true;
+
+        for (int i = 0; i < blinkCount; i++)
+        {
+            _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 0f); 
+            yield return indivildelay;
+            _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1f); 
+            yield return indivildelay;
+        }
+
+        isInvincible = false;
+    }
+
+    private void Die()
+    {
+        for (int i = heartImage.Length - 1; i >= 0; i--)
+        {
+            if (heartImage[i].activeSelf)
+            {
+                heartImage[i].SetActive(false);
+                break;
+            }
+        }
+
+        if (gm.hp > 0)
+        {
+            gm.hp--;
+            StartCoroutine(Hit(4));
+        }
+        else
+            gm.GameOver();
+    }
+
+    public void DashBarUpdate()
+    {
+        dashBar.value = dashCount / maxdashCount;
+        mdashBar.value = dashCount / maxdashCount;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag(sdashItem))
         {
-            if(dashReset)
+            StopAllCoroutines();
+
+            if (dashReset || isDash)
             {
                 dashReset = false;
-                StopAllCoroutines();
+                isDash = false;
+            }
+            if(isSDash)
+            {
+                isSDash = false;
+                gm.worldSpeed -= 3f;
             }
 
             isDash = true;
@@ -142,14 +236,30 @@ public abstract class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
 
             if (gm.hp < 3)
+            {
                 gm.hp++;
+
+                for (int i = 0; i < heartImage.Length; i++)
+                {
+                    if (!heartImage[i].activeSelf)
+                    {
+                        heartImage[i].SetActive(true);
+                        break;
+                    }
+                }
+            }
         }
         else if (collision.gameObject.CompareTag(obs))
         {
-            if (!isDash && !dashReset)
-                gm.hp--;
+            if (dashReset || isInvincible)
+                return;
+            else if (!isDash)
+                Die();
             else
+            {
                 collision.gameObject.SetActive(false);
+                gm.gameScore += 20;
+            }
         }
     }
 
@@ -175,11 +285,20 @@ public abstract class PlayerController : MonoBehaviour
             else
                 Debug.LogWarning("DrawPooling component is missing.");
         }
-            
+    }
+
+    private void OnEnable()
+    {
+        StateReset();
+        //StartCoroutine(Hit(2));
+    }
+
+    private void OnDisable()
+    {
+        StateReset();
     }
 
     protected abstract IEnumerator Dash();
     protected abstract IEnumerator DashReset();
-    protected abstract void Die();
 
 }

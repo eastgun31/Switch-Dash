@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Color[] colors = new Color[3];
     public bool nowDash = false;
     public bool holeTrapActive = false;
+    public bool nowLevelUp = false;
 
 
     private void Awake()
@@ -30,5 +31,10 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < shapes.Length; i++)
             colors[i] = shapes[i].color;
+    }
+
+    public void GameOver()
+    {
+        Debug.Log("Game Over");
     }
 }

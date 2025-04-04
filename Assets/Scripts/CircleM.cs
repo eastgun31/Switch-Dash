@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CircleM : PlayerController
 {
+
     protected override IEnumerator Dash()
     {
 
@@ -19,7 +20,7 @@ public class CircleM : PlayerController
             if (transform.position == dashRoot[3])
             {
                 isDash = false;
-                dashCount = 4;
+                dashCount = 0;
                 StartCoroutine(DashReset());
             }
 
@@ -32,6 +33,7 @@ public class CircleM : PlayerController
         GhostEffectOff();
         rb.gravityScale = 5;
         dashReset = true;
+        isInvincible = true;
         anim.SetBool(run, true);
 
         while (transform.position.x > dashRoot[0].x)
@@ -44,17 +46,36 @@ public class CircleM : PlayerController
                 isGround = true;
                 gm.nowDash = false;
                 drawPooling.SetDraw();
+
+                yield return indivildelay;
+
+                isInvincible = false;
             }
 
             yield return null;
         }
     }
 
+    //protected override IEnumerator Hit()
+    //{
+    //    if (isInvincible)
+    //    {
+    //        yield break;
+    //    }
 
+    //    Debug.Log("Hit");
+    //    isInvincible = true;
 
+    //    int blinkCount = 3;
+    //    for (int i = 0; i < blinkCount; i++)
+    //    {
+    //        _sprite.color = _sprite.color + new Color(0, 0, 0, -1f);
+    //        yield return indivildelay;
+    //        _sprite.color = _sprite.color + new Color(0, 0, 0, 1f);
+    //        yield return indivildelay;
+    //    }
 
-    protected override void Die()
-    {
-        Debug.Log("Circle Die");
-    }
+    //    isInvincible = false;
+    //}
+
 }

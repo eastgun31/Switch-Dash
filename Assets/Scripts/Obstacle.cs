@@ -6,6 +6,7 @@ public class Obstacle : MonoBehaviour
 {
     [SerializeField] private int obsIndex = 0;
     [SerializeField] private float objSpeed = 3.0f;
+    [SerializeField] private float _worldSpeed;
     [SerializeField] private Vector3 targetPos = new Vector3(-12, 3f, 0);
     [SerializeField] private ObstacleData obs;
     [SerializeField] private GameObject[] obsModel;
@@ -23,8 +24,11 @@ public class Obstacle : MonoBehaviour
         obsModel = new GameObject[arrayCount];
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        if(gm.nowLevelUp)
+            transform.position = targetPos;
+
         switch (obsIndex)
         {
             case 0:
@@ -38,12 +42,9 @@ public class Obstacle : MonoBehaviour
         }
     }
 
-    public void ObsModelOn()
+    public void ObsModelOn(int level)
     {
-        obsIndex = Random.Range(0, arrayCount);
-
-        if (gm.holeTrapActive)
-            ObsModelOn();
+        obsIndex = Random.Range(0, level);
 
         if (obsModel[obsIndex] == null)
         {
@@ -63,7 +64,7 @@ public class Obstacle : MonoBehaviour
     private void Obs_0()
     {
         transform.position = Vector2.MoveTowards
-                (transform.position, targetPos, gm.worldSpeed * objSpeed * Time.deltaTime);
+                (transform.position, targetPos, gm.worldSpeed * objSpeed * Time.fixedDeltaTime);
 
         if (transform.position.x <= targetPos.x)
         {
@@ -76,7 +77,7 @@ public class Obstacle : MonoBehaviour
     private void Obs_1()
     {
         transform.position = Vector2.MoveTowards
-                (transform.position, targetPos, gm.worldSpeed * objSpeed * Time.deltaTime);
+                (transform.position, targetPos, gm.worldSpeed * objSpeed * Time.fixedDeltaTime);
 
         if (transform.position.x <= targetPos.x)
         {

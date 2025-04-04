@@ -20,18 +20,14 @@ public class DrawColor : MonoBehaviour
         StartCoroutine(SizeUp());
     }
 
-    private void Start()
-    {
-        //_color = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
-    }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(noDraw)
         {
             StopAllCoroutines();
             transform.position = Vector2.MoveTowards
-                (transform.position, targetPos, gm.worldSpeed * scaleSpeed * Time.deltaTime);
+                (transform.position, targetPos, gm.worldSpeed * scaleSpeed * Time.fixedDeltaTime);
 
             if(transform.position == targetPos)
             {

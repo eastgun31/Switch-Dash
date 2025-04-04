@@ -19,7 +19,7 @@ public class TriangleM : PlayerController
                 yield return dashdelay;
 
                 isDash = false;
-                dashCount = 3;
+                dashCount = 0;
                 StartCoroutine(DashReset());
             }
 
@@ -32,6 +32,7 @@ public class TriangleM : PlayerController
         GhostEffectOff();
         rb.gravityScale = 10;
         dashReset = true;
+        isInvincible = true;
 
         while (transform.position.x > dashRoot[0].x)
         {
@@ -44,15 +45,36 @@ public class TriangleM : PlayerController
                 gm.nowDash = false;
                 anim.SetBool(run, true);
                 drawPooling.SetDraw();
+
+
+                yield return indivildelay;
+
+                isInvincible = false;
             }
 
             yield return null;
         }
     }
 
+    //protected override IEnumerator Hit()
+    //{
+    //    if (isInvincible)
+    //    {
+    //        yield break;
+    //    }
 
-    protected override void Die()
-    {
-        Debug.Log("Triangle Die");
-    }
+    //    Debug.Log("Hit");
+    //    isInvincible = true;
+
+    //    int blinkCount = 3;
+    //    for (int i = 0; i < blinkCount; i++)
+    //    {
+    //        _sprite.color = _sprite.color + new Color(0, 0, 0, -1f);
+    //        yield return indivildelay;
+    //        _sprite.color = _sprite.color + new Color(0, 0, 0, 1f);
+    //        yield return indivildelay;
+    //    }
+
+    //    isInvincible = false;
+    //}
 }
