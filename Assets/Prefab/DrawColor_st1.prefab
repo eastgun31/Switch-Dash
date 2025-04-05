@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noDraw: 0
   _color: {fileID: 0}
+  matObj: {fileID: 0}
 --- !u!1 &3890276980163415907
 GameObject:
   m_ObjectHideFlags: 0

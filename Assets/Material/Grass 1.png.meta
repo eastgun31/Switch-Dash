@@ -1,13 +1,5 @@
 fileFormatVersion: 2
-guid: ee5ab12db0b73344f9a1c89177d56025
-AssetOrigin:
-  serializedVersion: 1
-  productId: 85838
-  packageName: Free Platform Game Assets
-  packageVersion: 1.9.4
-  assetPath: Assets/BayatGames/Free Platform Game Assets/Tiles/2D Tiles ( Update
-    1.9 )/Autumn/128x128/Grass.png
-  uploadId: 484258
+guid: 69bc1bf89390cae4fac702b609b53441
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

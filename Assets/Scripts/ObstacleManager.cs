@@ -7,6 +7,7 @@ public class ObstacleManager : MonoBehaviour
     [SerializeField] private GameObject obstaclePrefab;
     [SerializeField] private GameObject sdItemPrefab;
     [SerializeField] private GameObject hItemPrefab;
+    [SerializeField] private GameObject platform;
     [SerializeField] private List<GameObject> obstacles = new List<GameObject>();
     [SerializeField] private List<Obstacle> _obstacles = new List<Obstacle>();
     [SerializeField] private ObstacleData obsData;
@@ -21,7 +22,7 @@ public class ObstacleManager : MonoBehaviour
     void Start()
     {
         gm = GameManager.instance;
-        spawnCool = 7f;
+        spawnCool = 5f;
         obsTypes = 1;
 
         for (int i = 0; i < 10; i++)
@@ -51,7 +52,7 @@ public class ObstacleManager : MonoBehaviour
             if (!obstacles[i].activeSelf)
             {
                 obstacles[i].SetActive(true);
-                _obstacles[i].ObsModelOn(obsTypes);
+                _obstacles[i].ObsModelOn(obsTypes, platform);
                 return;
             }
         }
@@ -59,7 +60,7 @@ public class ObstacleManager : MonoBehaviour
         newObj.SetActive(true);
         obstacles.Add(newObj);
         _obstacles.Add(newObj.GetComponent<Obstacle>());
-        _obstacles[_obstacles.Count - 1].ObsModelOn(obsTypes);
+        _obstacles[_obstacles.Count - 1].ObsModelOn(obsTypes, platform);
     }
 
     private void SpawnObj()
@@ -77,6 +78,7 @@ public class ObstacleManager : MonoBehaviour
                 if (rand == 0)
                 {
                     SpawnItem();
+                    Invoke("SetObstacle", 0.5f);
                 }
                 else
                     SetObstacle();
@@ -109,7 +111,7 @@ public class ObstacleManager : MonoBehaviour
         if(spawnCool > 1f)
             spawnCool --;
 
-        if (obsTypes < 3)
+        if (obsTypes < 5)
             obsTypes++;
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     private Vector3 targetPos;
-    private float speed = 3.5f;
+    private float speed = 3f;
 
     private void Start()
     {

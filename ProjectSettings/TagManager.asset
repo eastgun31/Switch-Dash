@@ -10,6 +10,7 @@ TagManager:
   - SDashItem
   - HItem
   - Obstacle
+  - Die
   layers:
   - Default
   - TransparentFX

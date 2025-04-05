@@ -272,6 +272,12 @@ public abstract class PlayerController : MonoBehaviour
             GhostEffectOff();
             drawPooling.SetDraw();
         }
+
+        if (collision.gameObject.CompareTag("Die"))
+        {
+            gm.GameOver();
+        }
+            
     }
     private void OnCollisionExit2D(Collision2D collision)
     {

@@ -43,6 +43,7 @@ public class DrawColor : MonoBehaviour
         while (transform.localScale.x < targetScale.x)
         {
             transform.localScale += new Vector3(scaleSpeed * gm.worldSpeed * Time.deltaTime, 0, 0);
+            
             yield return null;
         }
     }
